@@ -30,6 +30,8 @@
     #include "Configuration_local_esp32.hpp"
 #elif defined(__AVR_ATmega2560__) && __has_include("Configuration_local_mega.hpp")  // Mega2560
     #include "Configuration_local_mega.hpp"
+#elif defined(__AVR_ATmega1284P__) && __has_include("Configuration_local_1284p.hpp")  // ATmega1284p
+    #include "Configuration_local_1284p.hpp"
 #elif __has_include("Configuration_local.hpp")                                      // Custom config
     #include "Configuration_local.hpp"
 #endif

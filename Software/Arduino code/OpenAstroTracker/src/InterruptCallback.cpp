@@ -8,6 +8,14 @@
 
 #if defined ESP32
   // We don't support ESP32 boards in interrupt mode
+#elif defined __AVR_ATmega1284P__   // Sanguinololu ATmega 1284p
+  // We don't support interrupt mode
+  /*#define USE_TIMER_1     true
+  #define USE_TIMER_2     true
+  #define USE_TIMER_3     false
+  #define USE_TIMER_4     false
+  #define USE_TIMER_5     false
+  #include "libs/TimerInterrupt/TimerInterrupt.h"*/
 #elif defined __AVR_ATmega2560__   // Arduino Mega
   #define USE_TIMER_1     true
   #define USE_TIMER_2     true

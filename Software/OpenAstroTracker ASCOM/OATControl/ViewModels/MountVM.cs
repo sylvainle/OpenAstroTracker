@@ -642,7 +642,12 @@ namespace OATControl.ViewModels
 			var hwParts = hardware.Data.Split(',');
 			var raParts = hwParts[1].Split('|');
 			var decParts = hwParts[2].Split('|');
-			ScopeHardware = $"{hwParts[0]} board    RA {raParts[0]}, {raParts[1]}T    DEC {decParts[0]}, {decParts[1]}T";
+			if (decParts.Length > 1)
+            {
+				ScopeHardware = $"{hwParts[0]} board    RA {raParts[0]}, {raParts[1]}T    DEC {decParts[0]}, {decParts[1]}T";
+			} else {
+				ScopeHardware = $"{hwParts[0]} board    RA {raParts[0]}, {raParts[1]}T    DEC {decParts[0]}, NO_GPS";
+			}
 			_raIsNEMA = raParts[0] == "NEMA";
 			_decIsNEMA = decParts[0] == "NEMA";
 			for (int i = 3; i < hwParts.Length; i++)

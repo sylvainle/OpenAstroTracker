@@ -19,6 +19,10 @@ void serialLoop()
     processSerialData();
 #endif
 
+#ifdef __AVR_ATmega1284P__
+    processSerialData();
+#endif
+
 #ifdef WIFI_ENABLED
     wifiControl.loop();
 #endif
@@ -28,9 +32,12 @@ void serialLoop()
 //////////////////////////////////////////////////
 // Event that is triggered when the serial port receives data.
 #ifndef ESPBOARD
+// FIX : Not sure about this line
+#ifndef __AVR_ATmega1284P__
 void serialEvent() {
     processSerialData();
 }
+#endif
 #endif
 
 // ESP needs to call this in a loop :_(
