@@ -15,8 +15,17 @@ Uploading firmware on sanguinololu :
 - IDE : Visual Studio Code + PlatformIO plugin
 - Interface : Using an Arduino UNO with "Arduino as ISP" code uploaded (I was unable to upload firmware using usb)
 - Wiring :
-  Arduino UNO : see "Arduino as ISP" Code for pin usage
-  Sanguinololu : SPI pins (remove display before wiring !)
+* Arduino UNO : see "Arduino as ISP" Code for pin usage
+* Sanguinololu : SPI pins (remove display before wiring !)
+
+Geetech Nema 17 :
+- 42SHD0034-20B
+- 5V
+- 1.0a
+- 5,0Ω ± 10%
+- 6,2mh ± 20%
+- 300mN.m
+- 12mN.m
 
 ## The FORKED project :
 

@@ -173,11 +173,13 @@ Mount::Mount(int stepsPerRADegree, int stepsPerDECDegree, LcdMenu* lcdMenu) {
 void Mount::startTimerInterrupts()
 {
 #ifndef ESPBOARD
+#ifndef __AVR_ATmega1284P__
   // 2 kHz updates (higher frequency interferes with serial communications and complete messes up OATControl communications)
   if (!InterruptCallback::setInterval(0.5f, mountLoop, this))
   {
     LOGV1(DEBUG_MOUNT, F("Mount:: CANNOT setup interrupt timer!"));
   }
+#endif // !1284p
 #endif // !ESPBOARD
 
 }
@@ -817,11 +819,13 @@ int Mount::getBacklashCorrection()
 /////////////////////////////////
 String Mount::getMountHardwareInfo()
 {
-  String ret = "Unknown";
+  String ret = "Unknown,";
   #if defined(ESP32)
     ret = "ESP32,";
   #elif defined(__AVR_ATmega2560__)
     ret = "Mega,";
+  #elif defined(__AVR_ATmega1284P__)
+    ret = "Sanguinololu ATmega 1284p,";
   #endif
 
   #if RA_STEPPER_TYPE == STEPPER_TYPE_28BYJ48

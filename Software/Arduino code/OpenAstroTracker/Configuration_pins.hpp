@@ -117,7 +117,22 @@
 ////////////////////////////////////////////////////////////////////
 // Sanguinololu 1.3 + atmel1284p + A4988 + NEMA 17
 ////////////////////////////////////////////////////////////////////
-#ifdef __AVR_ATmega1284P__  // Arduino Mega
+#ifdef __AVR_ATmega1284P__
+    //---------------------------------------
+    // If using LCD KEYPAD :
+    #if DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD
+        #define LCD_KEYPAD_RS_PIN 4
+        #define LCD_KEYPAD_EN_PIN 17
+        #define LCD_KEYPAD_D4_PIN 30
+        #define LCD_KEYPAD_D5_PIN 29
+        #define LCD_KEYPAD_D6_PIN 28
+        #define LCD_KEYPAD_D7_PIN 27
+
+        // 20x4 SMART SCREEN
+        #define LCD_MENU_COLS 20
+        #define LCD_MENU_ROWS 4
+    #endif
+
     //---------------------------------------
     // If using 28BYJ-48 and ULN2003 drivers:
     #define RA_IN1_PIN  -1

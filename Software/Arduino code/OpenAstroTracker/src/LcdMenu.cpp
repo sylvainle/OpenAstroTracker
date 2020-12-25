@@ -8,25 +8,40 @@
 // You add a string and an id item and this class handles the display and navigation
 // Create a new menu, using the given number of LCD display columns and rows
 #if DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD
-LcdMenu::LcdMenu(byte cols, byte rows, int maxItems) : _lcd(8, 9, 4, 5, 6, 7)
-{
-  _cols = cols;
-  _rows = rows;
-  _maxItems = maxItems;
-}
-#elif DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23008 || DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23017
-LcdMenu::LcdMenu(byte cols, byte rows, int maxItems) : _lcd(0x20)
-{
-  #if DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23017
-  _lcd.setMCPType(LTI_TYPE_MCP23017);
-  #elif DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23008
-  _lcd.setMCPType(LTI_TYPE_MCP23008);
+  // Default LCD_KEYPAD PINS
+  #ifndef LCD_KEYPAD_RS_PIN
+      #define LCD_KEYPAD_RS_PIN 8
+      #define LCD_KEYPAD_EN_PIN 9
+      #define LCD_KEYPAD_D4_PIN 4
+      #define LCD_KEYPAD_D5_PIN 5
+      #define LCD_KEYPAD_D6_PIN 6
+      #define LCD_KEYPAD_D7_PIN 7
   #endif
+  LcdMenu::LcdMenu(byte cols, byte rows, int maxItems) : _lcd(LCD_KEYPAD_RS_PIN,
+                                                              LCD_KEYPAD_EN_PIN,
+                                                              LCD_KEYPAD_D4_PIN,
+                                                              LCD_KEYPAD_D5_PIN,
+                                                              LCD_KEYPAD_D6_PIN,
+                                                              LCD_KEYPAD_D7_PIN)
+  {
+    _cols = cols;
+    _rows = rows;
+    _maxItems = maxItems;
+  }
 
-  _cols = cols;
-  _rows = rows;
-  _maxItems = maxItems;
-}
+#elif DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23008 || DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23017
+  LcdMenu::LcdMenu(byte cols, byte rows, int maxItems) : _lcd(0x20)
+  {
+    #if DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23017
+    _lcd.setMCPType(LTI_TYPE_MCP23017);
+    #elif DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23008
+    _lcd.setMCPType(LTI_TYPE_MCP23008);
+    #endif
+
+    _cols = cols;
+    _rows = rows;
+    _maxItems = maxItems;
+  }
 #endif
 
 void LcdMenu::startup()
@@ -40,8 +55,10 @@ void LcdMenu::startup()
   _columns = _cols;
   _activeRow = -1;
   _activeCol = -1;
-  _lastDisplay[0] = "";
-  _lastDisplay[1] = "";
+  for (size_t i = 0; i < _rows; i++)
+  {
+    _lastDisplay[i] = "";
+  }
   _menuItems = new MenuItem *[_maxItems];
   
   #if DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23008 || DISPLAY_TYPE == DISPLAY_TYPE_LCD_KEYPAD_I2C_MCP23017

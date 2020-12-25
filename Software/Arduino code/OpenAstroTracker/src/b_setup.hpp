@@ -9,8 +9,13 @@
 #include "EPROMStore.hpp"
 #include "inc/Config.hpp"
 
+// Default LcdMenu Size
+#ifndef LCD_MENU_COLS
+    #define LCD_MENU_COLS 16
+    #define LCD_MENU_ROWS 2
+#endif
 
-LcdMenu lcdMenu(16, 2, MAXMENUITEMS);
+LcdMenu lcdMenu(LCD_MENU_COLS, LCD_MENU_ROWS, MAXMENUITEMS);
 LcdButtons lcdButtons(0, &lcdMenu);
 
 #ifdef ESP32
@@ -97,7 +102,7 @@ void setup() {
       digitalWrite(RA_MS0_PIN, HIGH);  // MS0
       digitalWrite(RA_MS1_PIN, HIGH);  // MS1
       digitalWrite(RA_MS2_PIN, HIGH);  // MS2
-      #endif
+    #endif
     #if RA_DRIVER_TYPE == DRIVER_TYPE_TMC2209_STANDALONE
       // include TMC2209 Standalone pins
       pinMode(40, OUTPUT);
@@ -197,7 +202,6 @@ void finishSetup()
   lcdMenu.printMenu("OpenAstroTracker");
   lcdMenu.setCursor(5, 1);
   lcdMenu.printMenu(VERSION);
-
   #if DISPLAY_TYPE > 0
     // Check for EEPROM reset (Button down during boot)
     if (lcdButtons.currentState() == btnDOWN){
